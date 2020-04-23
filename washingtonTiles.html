@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Washington DC Leaflet</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+
+  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+   crossorigin=""></script>
+
+  <style type="text/css">
+    body {
+       margin: 0;
+       padding: 0;
+    }
+    html, body, #map{
+       width: 100%;
+       height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+      var map = L.map('map').setView([38.89599771570638, -77.03444260421722], 15.0);
+
+      var redIcon = L.icon({
+        iconUrl: 'redIcon.png',
+        iconSize: [50, 50],
+        iconAnchor: [25, 50], 
+        popupAnchor: [0.5, -35],
+      });
+
+      var blackIcon = L.icon({
+        iconUrl: 'blackIcon.png',
+        iconSize: [50, 50],
+        iconAnchor: [25, 50],
+        popupAnchor: [0.5, -35],
+      });
+
+      var orangeIcon = L.icon({
+        iconUrl: 'orangeIcon.png',
+        iconSize: [35, 45],
+        iconAnchor: [17.5, 45],
+        popupAnchor: [0.5, -35],
+      });
+
+      var greenIcon = L.icon({
+        iconUrl: 'greenIcon.png',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+        popupAnchor: [0.5, -30],
+      });
+
+      var daWhiteHouse = L.marker([38.897668, -77.036507], {icon: redIcon}).addTo(map)
+          .bindPopup("The White House");
+
+      var daLincoln = L.marker([38.889260, -77.050197], {icon: blackIcon}).addTo(map)
+          .bindPopup("The Lincoln Memorial");
+
+      var daSmithsonian = L.marker([38.891239, -77.026630], {icon: orangeIcon}).addTo(map)
+          .bindPopup("The Smithsonian Museum of Natural History");
+
+      var daMall = L.marker([38.889668, -77.024311], {icon: greenIcon}).addTo(map)
+          .bindPopup("The National Mall");
+
+
+      var OMSR = L.tileLayer('https://maps.heigit.org/openmapsurfer/tiles/roads/webmercator/{z}/{x}/{y}.png', {
+	      maxZoom: 19
+      }).addTo(map);
+
+      var daGeoreference = L.tileLayer('./XYZtiles_whitehouse/{z}/{x}/{y}.png', {
+        minZoom: 14,
+        maxZoom: 16,
+        tms: false,
+        attribution: 'USGS'
+        });
+
+
+      var daTiles = {
+        "Open Map Surfer Roads": OMSR,
+        "DC georeferenced": daGeoreference
+      }
+
+      var daVectors = {
+        "The White House": daWhiteHouse,
+        "The Lincoln Memorial": daLincoln,
+        "The Smithsonian": daSmithsonian,
+        "The National Mall": daMall
+      }
+
+      L.control.layers(daTiles, daVectors).addTo(map);
+      
+
+  </script>
+</body>
+</html>
